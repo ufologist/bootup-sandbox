@@ -135,8 +135,9 @@ describe('addEventListener', function() {
 
     test('触发事件', function(done) {
         var sandbox = new BootupSandbox();
-        sandbox.addEventListener('test', function() {
+        sandbox.addEventListener('test', function(data) {
             expect(sandbox.window.foo).toBe('bar');
+            expect(data).toBe('foobar');
             done();
         });
 
@@ -145,7 +146,7 @@ describe('addEventListener', function() {
 
             parent.postMessage({
                 event: 'test',
-                data: ''
+                data: 'foobar'
             }, '*');
         `);
     });
