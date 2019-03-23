@@ -110,14 +110,18 @@ describe('ready', function() {
             expect(sandbox._isEnvReady).toBe(true);
         }).ready(function() {
             expect(sandbox.window.foo).toBe('bar');
-            done();
         }).injectScript(`
             window.foo = 'bar';
             parent.postMessage({
                 event: '${BootupSandbox.ENV_READY_EVENT_NAME}',
                 data: ''
             }, '*');
-        `);
+        `, function() {
+            expect(sandbox._isEnvReady).toBe(true);
+            sandbox.ready(function() {
+                done();
+            });
+        });
     });
 });
 
