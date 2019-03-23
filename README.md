@@ -17,6 +17,16 @@
 
 [![npm-image](https://nodei.co/npm/bootup-sandbox.png?downloads=true&downloadRank=true&stars=true)](https://npmjs.com/package/bootup-sandbox)
 
+在当前页面中启动一个沙箱环境, 让所有代码跑在沙箱中
+
+## 原理
+
+* 在当前页面中插入一个空的 `<iframe>` 元素
+  * 作为独立的运行环境, 与当前页面隔离开(特别适合作为第三方的集成方案)
+  * 避免与当前页面的 `CSS`/`JS` 冲突
+* 将 `JS` 注入到 `<iframe>` 元素中执行
+  * 动态创建 `<script>` 元素插入到 `<iframe>` 中
+
 ## Example
 
 ```javascript
@@ -32,7 +42,11 @@ sandbox.injectScript('window.foo = "bar"', function() {
 
 ## APIDoc
 
-[ESDoc](https://doc.esdoc.org/github.com/ufologist/bootup-sandbox/)
+* [ESDoc](https://doc.esdoc.org/github.com/ufologist/bootup-sandbox/)
+* 兼容 IE9+
+  * `Object.defineProperty`
+  * `script.onload`
+  * `postMessage`
 
 ## 初衷
 

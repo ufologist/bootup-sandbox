@@ -1,14 +1,10 @@
 /**
- * 沙箱
+ * 沙箱启动器
  * 
- * 流程
- * - 创建沙箱 -> 启动电脑
- * - 准备沙箱环境 -> 安装操作系统
- * - 执行代码 -> 在沙箱里面执行代码?
- * 
- * TODO 说明文档, 兼容 IE9+
- * TODO 补充测试用例
- * TODO 考虑默认值
+ * 启动沙箱的流程
+ * - 创建一个沙箱   -> 启动一台电脑
+ * - 给沙箱安装环境 -> 安装操作系统
+ * - 执行代码       -> 在操作系统中执行代码
  */
 class BootupSandbox {
     /**
@@ -16,19 +12,32 @@ class BootupSandbox {
      * @param {Element} [options.container=window.document.body] options.container 放沙箱的容器
      */
     constructor(options = {}) {
+        /**
+         * @type {object}
+         */
         this.options = options;
         this.options.container = this.options.container || window.document.body;
 
-        // 以 iframe 元素作为沙箱
+        /**
+         * @type {Element} 承载沙箱的元素(iframe)
+         */
         this.element = null;
-        // 沙箱里面的 window
+        /**
+         * @type {Window} 沙箱里面的 window 实例
+         */
         this.window = null;
-        // 沙箱里面的 document
+        /**
+         * @type {Document} 沙箱里面的 document 实例
+         */
         this.document = null;
 
-        // 沙箱里监听的事件
+        /**
+         * @type {object} 沙箱里监听的事件
+         */
         this._events = {};
-        // 容器环境是否准备好了
+        /**
+         * @type {boolean} 容器环境是否准备好了
+         */
         this._isEnvReady = false;
 
         this._init();
@@ -76,7 +85,7 @@ class BootupSandbox {
     }
 
     /**
-     * 在沙箱的 body 中注入脚本
+     * 往沙箱的 body 中注入脚本
      * 
      * @param {string}          content 脚本的内容(可以是直接的代码或者路径)
      * @param {object|Function} [options] options 当传入 Function 类型时, 默认指向 onload
@@ -84,7 +93,7 @@ class BootupSandbox {
      * @param {Function}        [options.onerror=function() {}] options.onerror
      * @param {boolean}         [options.contentIsSrc=false] options.contentIsSrc `content` 参数是否代表为外部引用的 src 路径
      * @param {boolean}         [options.remove=false] options.remove 注入之后是否删除
-     * @param {boolean}         [options.iife=true] options.iife 是否包装一个 IIFE 来隔离作用域(只针对直接的代码, 对外部引用的 JS 不起作用)
+     * @param {boolean}         [options.iife=true] options.iife 是否包装一个 IIFE 来隔离作用域(只针对直接运行的代码, 对外部引用的 JS 不起作用)
      * 
      * @return {BootupSandbox} this
      */
@@ -222,7 +231,7 @@ class BootupSandbox {
      * 移除沙箱里的事件监听
      * 
      * @param {string} event
-     * @param {Function} [handler] handler
+     * @param {Function} [handler] handler 当有 handler 参数时移除指定的事件监听; 当没有 handler 参数时移除所有该事件的事件监听
      * @return {BootupSandbox} this
      */
     removeEventListener(event, handler) {
@@ -234,8 +243,8 @@ class BootupSandbox {
                 })[0];
 
                 if (found) {
-                    eventHandlers.splice(eventHandlers.indexOf(found), 1)
                     window.removeEventListener('message', found.handler);
+                    eventHandlers.splice(eventHandlers.indexOf(found), 1);
                 }
             } else {
                 eventHandlers.forEach(function(eventHandler) {

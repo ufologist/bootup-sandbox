@@ -1,7 +1,7 @@
 {
   "name": "bootup-sandbox",
   "version": "0.0.1",
-  "description": "bootup-sandbox",
+  "description": "bootup a sandbox",
   "main": "dist/bootup-sandbox.js",
   "scripts": {
     "start": "rollup -c",
