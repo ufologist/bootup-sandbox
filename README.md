@@ -43,4 +43,4 @@ sandbox.injectScript('window.foo = "bar"', function() {
 * [iframe-script](https://github.com/alexgorbatchev/iframe-script)
 * [create-iframe](https://github.com/sethvincent/create-iframe)
 * [iframe-sandbox](https://github.com/kumavis/iframe-sandbox)
-* [https://github.com/aui/jsonp-sandbox](https://github.com/aui/jsonp-sandbox)
+* [jsonp-sandbox](https://github.com/aui/jsonp-sandbox)
