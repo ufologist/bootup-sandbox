@@ -9,11 +9,6 @@
  * TODO 说明文档, 兼容 IE9+
  * TODO 补充测试用例
  * TODO 考虑默认值
- * 
- * https://www.npmjs.com/package/iframe-script
- * https://www.npmjs.com/package/create-iframe
- * https://www.npmjs.com/package/iframe-sandbox
- * https://www.npmjs.com/package/jsonp-sandbox
  */
 class BootupSandbox {
     /**
