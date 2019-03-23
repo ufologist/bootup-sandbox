@@ -21,11 +21,17 @@
 
 ## 原理
 
+初衷: 在 PC 端页面中接入第三方的 IM 组件, 为了避免接入时可能存在的冲突
+
 * 在当前页面中插入一个空的 `<iframe>` 元素
   * 作为独立的运行环境, 与当前页面隔离开(特别适合作为第三方的集成方案)
   * 避免与当前页面的 `CSS`/`JS` 冲突
 * 将 `JS` 注入到 `<iframe>` 元素中执行
   * 动态创建 `<script>` 元素插入到 `<iframe>` 中
+
+灵感来源[网易云音乐](https://music.163.com/), 感谢网易云音乐的 FE 们
+
+![music 163 com](https://user-images.githubusercontent.com/167221/54866079-b819fa00-4daa-11e9-803c-c5a22d170d03.png)
 
 ## Example
 
@@ -47,10 +53,6 @@ sandbox.injectScript('window.foo = "bar"', function() {
   * `Object.defineProperty`
   * `script.onload`
   * `postMessage`
-
-## 初衷
-
-接入 IM
 
 ## 其他思路
 
