@@ -179,6 +179,14 @@ class BootupSandbox {
     /**
      * 监听沙箱里的事件, 通过 postMessge 实现
      * 
+     * 例如在沙箱中执行如下代码抛出事件
+     * ```javascript
+     * parent.postMessage({
+     *     event: 'eventname',
+     *     data: ''
+     * }, '*');
+     * ```
+     * 
      * @param {string} event
      * @param {Function} handler
      * @return {BootupSandbox} this
@@ -191,11 +199,12 @@ class BootupSandbox {
         }
 
         var messageEventHandler = (e) => {
-            if (e && e.data) {
-                var eventName = e.data.event;
+            var data = e.data;
+            if (data) {
+                var eventName = data.event;
 
                 if (event === eventName) {
-                    handler.apply(this, e.data, e);
+                    handler.call(this, data.data, data, e);
                 }
             }
         };
