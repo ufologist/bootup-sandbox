@@ -68,7 +68,7 @@ describe('injectScript', function() {
 
     test('注入文件', function(done) {
         var sandbox = new BootupSandbox();
-        sandbox.injectScript('https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js', {
+        sandbox.injectScript('https://unpkg.com/jquery@3.3.1/dist/jquery.min.js', {
             contentIsSrc: true,
             onload: function() {
                 expect(sandbox.window.$.fn.jquery).toBe('3.3.1');
