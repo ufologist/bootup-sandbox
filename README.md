@@ -36,9 +36,7 @@
 ## Example
 
 ```javascript
-import {
-    BootupSandbox
-} from 'bootup-sandbox';
+import BootupSandbox from 'bootup-sandbox';
 
 var sandbox = new BootupSandbox();
 sandbox.injectScript('window.foo = "bar"', function() {
