@@ -9,7 +9,7 @@
 class BootupSandbox {
     /**
      * @param {object} options 
-     * @param {Element} [options.container=window.document.body] options.container 放沙箱的容器
+     * @param {Element} [options.container=window.document.body] 放沙箱的容器
      */
     constructor(options = {}) {
         /**
@@ -89,11 +89,11 @@ class BootupSandbox {
      * 
      * @param {string}          content 脚本的内容(可以是直接的代码或者路径)
      * @param {object|Function} [options] options 当传入 Function 类型时, 默认指向 onload
-     * @param {Function}        [options.onload=function() {}] options.onload
-     * @param {Function}        [options.onerror=function() {}] options.onerror
-     * @param {boolean}         [options.contentIsSrc=false] options.contentIsSrc `content` 参数是否代表为外部引用的 src 路径
-     * @param {boolean}         [options.remove=false] options.remove 注入之后是否删除
-     * @param {boolean}         [options.iife=true] options.iife 是否包装一个 IIFE 来隔离作用域(只针对直接运行的代码, 对外部引用的 JS 不起作用)
+     * @param {Function}        [options.onload=function() {}]
+     * @param {Function}        [options.onerror=function() {}]
+     * @param {boolean}         [options.contentIsSrc=false] `content` 参数是否代表为外部引用的 src 路径
+     * @param {boolean}         [options.remove=false] 注入之后是否删除
+     * @param {boolean}         [options.iife=true] 是否包装一个 IIFE 来隔离作用域(只针对直接运行的代码, 对外部引用的 JS 不起作用)
      * 
      * @return {BootupSandbox} this
      */
@@ -231,7 +231,7 @@ class BootupSandbox {
      * 移除沙箱里的事件监听
      * 
      * @param {string} event
-     * @param {Function} [handler] handler 当有 handler 参数时移除指定的事件监听; 当没有 handler 参数时移除所有该事件的事件监听
+     * @param {Function} [handler] 当有 handler 参数时移除指定的事件监听; 当没有 handler 参数时移除所有该事件的事件监听
      * @return {BootupSandbox} this
      */
     removeEventListener(event, handler) {
