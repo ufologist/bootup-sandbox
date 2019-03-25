@@ -197,7 +197,7 @@ class BootupSandbox {
      * ```
      * 
      * @param {string} event
-     * @param {Function} handler
+     * @param {function(data:*):void} handler
      * @return {BootupSandbox} this
      * @see https://developer.mozilla.org/en-US/docs/Web/API/Window/postMessage
      */
