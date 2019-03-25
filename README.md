@@ -29,7 +29,13 @@
 * 将 `JS` 注入到 `<iframe>` 元素中执行
   * 动态创建 `<script>` 元素插入到 `<iframe>` 中
 
-灵感来源[网易云音乐](https://music.163.com/), 感谢网易云音乐的 FE 们
+灵感来源[反击爬虫，前端工程师的脑洞可以有多大？](https://imweb.io/topic/595b7161d6ca6b4f0ac71f05), 感谢网易云音乐的 FE 们
+
+> iframe异步加载式
+>
+> 例子：[网易云音乐](https://music.163.com/)
+> 
+> 网易云音乐页面一打开，html源码里几乎只有一个iframe，并且它的src是空白的：`about:blank`。接着js开始运行，把整个页面的框架异步塞到了iframe里面…
 
 ![music 163 com](https://user-images.githubusercontent.com/167221/54866079-b819fa00-4daa-11e9-803c-c5a22d170d03.png)
 
