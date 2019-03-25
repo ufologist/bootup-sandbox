@@ -139,7 +139,7 @@ describe('addEventListener', function() {
 
     test('触发事件', function(done) {
         var sandbox = new BootupSandbox();
-        sandbox.addEventListener('test', function(data) {
+        sandbox.addEventListener('test', function(event, data) {
             expect(sandbox.window.foo).toBe('bar');
             expect(data).toBe('foobar');
             done();

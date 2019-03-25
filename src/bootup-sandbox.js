@@ -197,7 +197,7 @@ class BootupSandbox {
      * ```
      * 
      * @param {string} event
-     * @param {function(data:*):void} handler
+     * @param {function(event:Event, data:*):void} handler
      * @return {BootupSandbox} this
      * @see https://developer.mozilla.org/en-US/docs/Web/API/Window/postMessage
      */
@@ -213,7 +213,7 @@ class BootupSandbox {
                 var eventName = data.event;
 
                 if (event === eventName) {
-                    handler.call(this, data.data, data, e);
+                    handler.call(this, e, data.data);
                 }
             }
         };
