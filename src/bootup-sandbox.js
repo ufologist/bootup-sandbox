@@ -258,6 +258,9 @@ class BootupSandbox {
     }
 }
 
+/**
+ * @type {string} 容器环境准备好的事件名
+ */
 BootupSandbox.ENV_READY_EVENT_NAME = 'ENV_READY';
 
 export default BootupSandbox;
