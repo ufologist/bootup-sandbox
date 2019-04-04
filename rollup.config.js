@@ -1,5 +1,6 @@
 // import commonjs from 'rollup-plugin-commonjs';
 // import nodeResolve from 'rollup-plugin-node-resolve';
+// import license from 'rollup-plugin-license';
 import babel from 'rollup-plugin-babel';
 import {
     uglify

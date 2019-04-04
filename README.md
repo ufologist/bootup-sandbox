@@ -57,6 +57,7 @@ sandbox.injectScript('window.foo = "bar"', function() {
   * `Object.defineProperty`
   * `script.onload`
   * `postMessage`
+  * `addEventListener`
 
 ## 其他思路
 

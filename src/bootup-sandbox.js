@@ -9,7 +9,8 @@
 class BootupSandbox {
     /**
      * @param {object} options 
-     * @param {Element} [options.container=window.document.body] 放沙箱的容器
+     * @param {Element} [options.container=window.document.body] 放沙箱的容器(该元素必须是已经挂载的 DOM 节点)
+     * @param {Function} [options.beforeMount] 沙箱在挂载到 DOM 节点之前的 hook
      */
     constructor(options = {}) {
         /**
@@ -52,17 +53,28 @@ class BootupSandbox {
         this.setStyle({
             border: 'none'
         });
+
+        if (this.options.beforeMount) {
+            this.options.beforeMount.apply(this);
+        }
         this.options.container.appendChild(this.element);
 
-        this.window = this.element.contentWindow;
-        this.document = this.element.contentDocument;
+        // 防止出现不可预知的(跨域)安全问题
+        try {
+            this.window = this.element.contentWindow;
+            this.document = this.element.contentDocument || this.contentWindow.document; // 兼容 IE67
 
-        // 为了兼容 IE9, 需要预先写下基础的页面内容
-        // 因为 IE9 下测试 this._iframe.contentDocument.body 为 null
-        // https://stackoverflow.com/questions/16504816/how-to-set-html-content-into-an-iframe
-        this.document.open();
-        this.document.write('<html><head></head><body></body></html>');
-        this.document.close();
+            // 为了兼容 IE9-10, 需要预先写下基础的页面内容
+            // 因为 IE9-10 下测试 this.element.contentDocument.body 为 null
+            // https://stackoverflow.com/questions/16504816/how-to-set-html-content-into-an-iframe
+            if (!this.document.body) {
+                this.document.open();
+                this.document.write('<html><head></head><body></body></html>');
+                this.document.close();
+            }
+        } catch (error) {
+            console.error('获取沙箱关键对象失败', error);
+        }
 
         this.addEventListener(BootupSandbox.ENV_READY_EVENT_NAME, function() {
             this._isEnvReady = true;

@@ -9,6 +9,7 @@ describe('constructor', function() {
         expect(sandbox.element).toBe(iframe);
         expect(sandbox.window).toBe(iframe.contentWindow);
         expect(sandbox.document).toBe(iframe.contentDocument);
+        expect(sandbox.document.body).not.toBe(null);
     });
 
     test('在选定的容器上创建沙箱', function() {
@@ -19,6 +20,15 @@ describe('constructor', function() {
             container: div
         });
         expect(div.querySelector('.js-bootup-sandbox')).not.toBe(null);
+    });
+
+    test('沙箱在挂载到 DOM 节点之前的 hook', function() {
+        var sandbox = new BootupSandbox({
+            beforeMount: function() {
+                this.element.src = 'https://baidu.com';
+            }
+        });
+        expect(sandbox.document.body).not.toBe(null);
     });
 });
 
