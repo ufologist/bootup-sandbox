@@ -62,7 +62,7 @@ class BootupSandbox {
         // 防止出现不可预知的(跨域)安全问题
         try {
             this.window = this.element.contentWindow;
-            this.document = this.element.contentDocument || this.contentWindow.document; // 兼容 IE67
+            this.document = this.element.contentDocument || this.element.contentWindow.document; // 兼容 IE67
 
             // 为了兼容 IE9-10, 需要预先写下基础的页面内容
             // 因为 IE9-10 下测试 this.element.contentDocument.body 为 null

@@ -1,6 +1,6 @@
 {
   "name": "bootup-sandbox",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "bootup a sandbox",
   "main": "dist/bootup-sandbox.js",
   "scripts": {

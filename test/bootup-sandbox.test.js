@@ -12,6 +12,21 @@ describe('constructor', function() {
         expect(sandbox.document.body).not.toBe(null);
     });
 
+    test('模拟 IE7', function() {
+        var sandbox = new BootupSandbox({
+            beforeMount: function() {
+                // IE7 没有 contentDocument 属性
+                Object.defineProperty(this.element, 'contentDocument', {
+                    value: undefined
+                });
+            }
+        });
+
+        expect(sandbox.window).toBe(sandbox.element.contentWindow);
+        expect(sandbox.document).toBe(sandbox.element.contentWindow.document);
+        expect(sandbox.document.body).not.toBe(null);
+    });
+
     test('在选定的容器上创建沙箱', function() {
         var div = document.createElement('div');
         document.body.appendChild(div);
