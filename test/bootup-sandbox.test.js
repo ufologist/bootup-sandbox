@@ -1,8 +1,18 @@
 import BootupSandbox from '../src/bootup-sandbox.js';
 
+var sandbox = null;
+
+afterEach(function() {
+    sandbox.destroy();
+
+    expect(Object.keys(sandbox._events).length).toBe(0);
+    expect(sandbox.options.container.querySelector('.js-bootup-sandbox')).toBe(null);
+    expect(sandbox._isDestroy).toBe(true);
+});
+
 describe('constructor', function() {
     test('默认在 body 上创建沙箱', function() {
-        var sandbox = new BootupSandbox();
+        sandbox = new BootupSandbox();
 
         var iframe = document.body.querySelector('.js-bootup-sandbox');
         expect(iframe).not.toBe(null);
@@ -13,7 +23,7 @@ describe('constructor', function() {
     });
 
     test('模拟 IE7', function() {
-        var sandbox = new BootupSandbox({
+        sandbox = new BootupSandbox({
             beforeMount: function() {
                 // IE7 没有 contentDocument 属性
                 Object.defineProperty(this.element, 'contentDocument', {
@@ -22,8 +32,12 @@ describe('constructor', function() {
             }
         });
 
-        expect(sandbox.window).toBe(sandbox.element.contentWindow);
-        expect(sandbox.document).toBe(sandbox.element.contentWindow.document);
+        var iframe = document.body.querySelector('.js-bootup-sandbox');
+        expect(iframe).not.toBe(null);
+        expect(iframe.contentDocument).toBeUndefined();
+        expect(sandbox.element).toBe(iframe);
+        expect(sandbox.window).toBe(iframe.contentWindow);
+        expect(sandbox.document).toBe(iframe.contentWindow.document);
         expect(sandbox.document.body).not.toBe(null);
     });
 
@@ -31,14 +45,14 @@ describe('constructor', function() {
         var div = document.createElement('div');
         document.body.appendChild(div);
 
-        new BootupSandbox({
+        sandbox = new BootupSandbox({
             container: div
         });
         expect(div.querySelector('.js-bootup-sandbox')).not.toBe(null);
     });
 
     test('沙箱在挂载到 DOM 节点之前的 hook', function() {
-        var sandbox = new BootupSandbox({
+        sandbox = new BootupSandbox({
             beforeMount: function() {
                 this.element.src = 'https://baidu.com';
             }
@@ -49,12 +63,12 @@ describe('constructor', function() {
 
 describe('setStyle', function() {
     test('默认样式', function() {
-        var sandbox = new BootupSandbox();
+        sandbox = new BootupSandbox();
         expect(sandbox.element.style.border).toBe('');
     });
 
     test('设置样式', function() {
-        var sandbox = new BootupSandbox();
+        sandbox = new BootupSandbox();
         sandbox.setStyle({
             border: '1px solid #000'
         });
@@ -65,7 +79,7 @@ describe('setStyle', function() {
 
 describe('injectScript', function() {
     test('注入代码', function(done) {
-        var sandbox = new BootupSandbox();
+        sandbox = new BootupSandbox();
         sandbox.injectScript('window.foo = "bar"', function() {
             expect(sandbox.window.foo).toBe('bar');
             done();
@@ -73,7 +87,7 @@ describe('injectScript', function() {
     });
 
     test('默认注入 IIFE 代码', function(done) {
-        var sandbox = new BootupSandbox();
+        sandbox = new BootupSandbox();
         sandbox.injectScript('var foo = "bar"', function() {
             expect(sandbox.window.foo).toBeUndefined();
             done();
@@ -81,7 +95,7 @@ describe('injectScript', function() {
     });
 
     test('关闭 IIFE 选项', function(done) {
-        var sandbox = new BootupSandbox();
+        sandbox = new BootupSandbox();
         sandbox.injectScript('var foo = "bar"', {
             iife: false,
             onload: function() {
@@ -92,7 +106,7 @@ describe('injectScript', function() {
     });
 
     test('注入文件', function(done) {
-        var sandbox = new BootupSandbox();
+        sandbox = new BootupSandbox();
         sandbox.injectScript('https://unpkg.com/jquery@3.3.1/dist/jquery.min.js', {
             contentIsSrc: true,
             onload: function() {
@@ -103,7 +117,7 @@ describe('injectScript', function() {
     });
 
     test('默认不删除注入的元素', function(done) {
-        var sandbox = new BootupSandbox();
+        sandbox = new BootupSandbox();
         sandbox.injectScript('var foo = "bar"', function() {
             expect(sandbox.document.body.querySelector('.js-bootup-sandbox-script')).not.toBe(null);
             done();
@@ -111,7 +125,7 @@ describe('injectScript', function() {
     });
 
     test('删除注入的元素', function(done) {
-        var sandbox = new BootupSandbox();
+        sandbox = new BootupSandbox();
         sandbox.injectScript('var foo = "bar"', {
             remove: true,
             onload: function() {
@@ -124,12 +138,12 @@ describe('injectScript', function() {
 
 describe('ready', function() {
     test('初始环境', function() {
-        var sandbox = new BootupSandbox();
+        sandbox = new BootupSandbox();
         expect(sandbox._isEnvReady).toBe(false);
     });
 
     test('触发容器环境准备好了', function(done) {
-        var sandbox = new BootupSandbox();
+        sandbox = new BootupSandbox();
         sandbox.ready(function() {
             expect(this).toBe(sandbox);
             expect(sandbox._isEnvReady).toBe(true);
@@ -152,7 +166,7 @@ describe('ready', function() {
 
 describe('addEventListener', function() {
     test('监听事件', function() {
-        var sandbox = new BootupSandbox();
+        sandbox = new BootupSandbox();
         var handler1 = function() {};
         var handler2 = function() {};
         sandbox.addEventListener('test', handler1);
@@ -163,7 +177,7 @@ describe('addEventListener', function() {
     });
 
     test('触发事件', function(done) {
-        var sandbox = new BootupSandbox();
+        sandbox = new BootupSandbox();
         sandbox.addEventListener('test', function(event, data) {
             expect(sandbox.window.foo).toBe('bar');
             expect(data).toBe('foobar');
@@ -183,7 +197,7 @@ describe('addEventListener', function() {
 
 describe('removeEventListener', function() {
     test('删除指定事件的事件监听', function() {
-        var sandbox = new BootupSandbox();
+        sandbox = new BootupSandbox();
         var handler1 = function() {};
         var handler2 = function() {};
         sandbox.addEventListener('test', handler1);
@@ -194,7 +208,7 @@ describe('removeEventListener', function() {
     });
 
     test('删除指定事件的所有监听', function() {
-        var sandbox = new BootupSandbox();
+        sandbox = new BootupSandbox();
         var handler1 = function() {};
         var handler2 = function() {};
         sandbox.addEventListener('test', handler1);

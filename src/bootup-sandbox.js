@@ -34,12 +34,26 @@ class BootupSandbox {
 
         /**
          * @type {object} 沙箱里监听的事件
+         * 
+         * ```
+         * {
+         *     'event-name': [{
+         *         originalHandler,
+         *         handler
+         *     }]
+         * }
+         * ```
          */
         this._events = {};
         /**
          * @type {boolean} 容器环境是否准备好了
          */
         this._isEnvReady = false;
+
+        /**
+         * @type {boolean} 沙箱是否被销毁了
+         */
+        this._isDestroy = false;
 
         this._init();
     }
@@ -267,6 +281,17 @@ class BootupSandbox {
         }
 
         return this;
+    }
+
+    /**
+     * 销毁沙箱
+     */
+    destroy() {
+        for (var event in this._events) {
+            this.removeEventListener(event);
+        }
+        this.options.container.removeChild(this.element);
+        this._isDestroy = true;
     }
 }
 
